@@ -36,11 +36,11 @@
 
     void ComprarB()
     {
-        if (Tribuna.cantidadBoletosMesas > 0)
+        if (Tribuna.cantidadBoletosTribuna > 0)
         {
             boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, boleto.NumeroAsiento));
             compras.cola_tribuna.Enqueue(boleto);
-            Tribuna.cantidadBoletosMesas--;
+            Tribuna.cantidadBoletosTribuna--;
             mensaje = $"✅ Boleto emitido";
             Guardar();
         }

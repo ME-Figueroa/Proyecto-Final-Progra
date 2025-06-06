@@ -20,12 +20,15 @@
     
 <br />
 <h5 class="mt-4">Boletos restantes: @MesasPlatino.cantidadBoletosMesas</h5>
-
+<br />
+<img src="@imagen"
+<a href="@imagen" download="@($"_{boleto.nombres}.png")">Descargar</a>
 @code {
     private MesasPlatino boleto = new MesasPlatino();
     private List<MesasPlatino> mesas = new List<MesasPlatino>();
     Compra compras = new Compra();
     string mensaje = "";
+    string imagen;
 
     private void Guardar()
     {
@@ -43,6 +46,9 @@
             MesasPlatino.cantidadBoletosMesas--;
             mensaje = $"✅ Boleto emitido";
             Guardar();
+
+            imagen = compras.generarQR(boleto.correlativo.ToString());
+            StateHasChanged();
         }
         else
         {
