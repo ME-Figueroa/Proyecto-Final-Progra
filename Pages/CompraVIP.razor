@@ -1,0 +1,64 @@
+﻿@using ProyectoProgra.Clases
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
+
+@page "/VIP"
+<h3> Compra - VIP</h3>
+
+@if (mensaje != null)
+{
+    <p><b>@mensaje</b></p>
+}
+
+<EditForm Model="boleto" OnValidSubmit="ComprarB">
+    <InputText @bind-Value="boleto.nombres" placeholder="Nombres" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.apellidos" placeholder="Apellidos" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.dpi" placeholder="DPI" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.correoElectronico" placeholder="Correo" class="form-control mb-2" />
+    <InputNumber @bind-Value="boleto.numEstacionamiento" placeholder="Numero de estacionamiento" class="form-control mb-2" />
+    <button class="btn btn-primary" type="submit">Unirse a la cola</button>
+</EditForm>
+
+<br />
+<h5 class="mt-4">Boletos restantes: @VIP.cantidadBoletosVIP</h5>
+
+@code {
+    private VIP boleto = new VIP();
+    private List<VIP> vips = new List<VIP>();
+    Compra compras = new Compra();
+    string mensaje = "";
+
+    private void Guardar()
+    {
+        vips.Add(boleto);
+        localStorage.SetItem("vips", vips);
+        compras.cola_vip.Dequeue();
+    }
+
+    void ComprarB()
+    {
+        if (VIP.cantidadBoletosVIP > 0)
+        {
+            boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, boleto.numEstacionamiento));
+            compras.cola_vip.Enqueue(boleto);
+            VIP.cantidadBoletosVIP--;
+            mensaje = $"✅ Boleto emitido";
+            Guardar();
+        }
+        else
+        {
+            mensaje = "❌ Boletos agotados.";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Recuperar la lista de starships desde LocalStorage a una variable var
+        var boletosVIP = localStorage.GetItem<List<VIP>>("vips");
+
+        // Validar si la lista fue recuperada correctamente, copiarla a la lista
+        if (boletosVIP != null)
+        {
+            vips = boletosVIP;
+        }
+    }
+}

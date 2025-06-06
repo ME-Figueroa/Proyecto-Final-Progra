@@ -3,6 +3,8 @@
     public class General : Boletos
     {
         public bool EsZonaDePie { get; set; } = true;
+        public static int cantidadBoletosGeneral{ get; set; } = 80;
+
 
         public General()
         {

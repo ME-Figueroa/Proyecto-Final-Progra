@@ -1,0 +1,63 @@
+﻿@using ProyectoProgra.Clases
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
+
+@page "/General"
+<h3> Compra - General</h3>
+
+@if (mensaje != null)
+{
+    <p><b>@mensaje</b></p>
+}
+
+<EditForm Model="boleto" OnValidSubmit="ComprarB">
+    <InputText @bind-Value="boleto.nombres" placeholder="Nombres" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.apellidos" placeholder="Apellidos" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.dpi" placeholder="DPI" class="form-control mb-2" />
+    <InputText @bind-Value="boleto.correoElectronico" placeholder="Correo" class="form-control mb-2" />
+    <button class="btn btn-primary" type="submit">Unirse a la cola</button>
+</EditForm>
+
+<br />
+<h5 class="mt-4">Boletos restantes: @General.cantidadBoletosGeneral</h5>
+
+@code {
+    private General boleto = new General();
+    private List<General> generals = new List<General>();
+    Compra compras = new Compra();
+    string mensaje = "";
+
+    private void Guardar()
+    {
+        generals.Add(boleto);
+        localStorage.SetItem("generales", generals);
+        compras.cola_vip.Dequeue();
+    }
+
+    void ComprarB()
+    {
+        if (General.cantidadBoletosGeneral > 0)
+        {
+            boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, 0));
+            compras.cola_general.Enqueue(boleto);
+            General.cantidadBoletosGeneral--;
+            mensaje = $"✅ Boleto emitido";
+            Guardar();
+        }
+        else
+        {
+            mensaje = "❌ Boletos agotados.";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Recuperar la lista de starships desde LocalStorage a una variable var
+        var boletosGeneral = localStorage.GetItem<List<General>>("genelares");
+
+        // Validar si la lista fue recuperada correctamente, copiarla a la lista
+        if (boletosGeneral != null)
+        {
+            generals = boletosGeneral;
+        }
+    }
+}

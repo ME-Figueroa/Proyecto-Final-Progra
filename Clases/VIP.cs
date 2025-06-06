@@ -1,8 +1,13 @@
-﻿namespace ProyectoProgra.Clases
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProyectoProgra.Clases
 {
     public class VIP : Boletos
     {
-        public string? numEstacionamiento { get; set; }
+        [Required][Range(1,40,ErrorMessage ="Ingrese un numero de estacionamiento valido")]
+        public int numEstacionamiento { get; set; }
+        public static int cantidadBoletosVIP { get; set; } = 40;
+
 
         public VIP()
         {

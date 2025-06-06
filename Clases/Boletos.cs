@@ -4,11 +4,12 @@ namespace ProyectoProgra.Clases
 {
     public class Boletos
     {
-        public string? correlativo {  get; set; }
-        public string? tipoBoleto { get; set; }
+        public  int correlativo {  get; set; }
+        public string tipoBoleto { get; set; }
+
 
         [Required][StringLength(13,ErrorMessage ="Ingrese un numero de DPI valido")]
-        public string? dpi { get; set; }
+        public string dpi { get; set; }
 
         [Required] public string? nombres { get; set; }
         [Required] public string? apellidos { get; set; }
