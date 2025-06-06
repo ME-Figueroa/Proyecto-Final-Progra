@@ -19,12 +19,15 @@
 
 <br />
 <h5 class="mt-4">Boletos restantes: @General.cantidadBoletosGeneral</h5>
+<img src="@imagen" />
+<a href="@imagen" download="@($"_{boleto.nombres}.png")">Descargar</a>
 
 @code {
     private General boleto = new General();
     private List<General> generals = new List<General>();
     Compra compras = new Compra();
     string mensaje = "";
+    string imagen;
 
     private void Guardar()
     {
@@ -43,6 +46,8 @@
             localStorage.SetItem("cantidadBoletosGeneral", General.cantidadBoletosGeneral);
             mensaje = $"✅ Boleto emitido";
             Guardar();
+            imagen = compras.generarQR(boleto.correlativo.ToString());
+            StateHasChanged();
         }
         else
         {

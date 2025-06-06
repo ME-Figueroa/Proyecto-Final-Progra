@@ -20,12 +20,16 @@
 
 <br />
 <h5 class="mt-4">Boletos restantes: @VIP.cantidadBoletosVIP</h5>
+<br />
+<img src="@imagen" />
+<a href="@imagen" download="@($"_{boleto.nombres}.png")">Descargar</a>
 
 @code {
     private VIP boleto = new VIP();
     private List<VIP> vips = new List<VIP>();
     Compra compras = new Compra();
     string mensaje = "";
+    string imagen;
 
     private void Guardar()
     {
@@ -44,6 +48,9 @@
             localStorage.SetItem("cantidadBoletosVIP", VIP.cantidadBoletosVIP);
             mensaje = $"✅ Boleto emitido";
             Guardar();
+
+            imagen = compras.generarQR(boleto.correlativo.ToString());
+            StateHasChanged();
         }
         else
         {

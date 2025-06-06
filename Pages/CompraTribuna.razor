@@ -20,12 +20,15 @@
 
 <br />
 <h5 class="mt-4">Boletos restantes: @Tribuna.cantidadBoletosTribuna</h5>
+<img src="@imagen" />
+<a href="@imagen" download="@($"_{boleto.nombres}.png")">Descargar</a>
 
 @code {
     private Tribuna boleto = new Tribuna();
     private List<Tribuna> tribunas = new List<Tribuna>();
     Compra compras = new Compra();
     string mensaje = "";
+    string imagen;
 
     private void Guardar()
     {
@@ -44,6 +47,8 @@
             localStorage.SetItem("cantidadBoletosTribuna",Tribuna.cantidadBoletosTribuna);
             mensaje = $"✅ Boleto emitido";
             Guardar();
+            imagen = compras.generarQR(boleto.correlativo.ToString());
+            StateHasChanged();
         }
         else
         {
