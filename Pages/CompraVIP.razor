@@ -41,6 +41,7 @@
             boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, boleto.numEstacionamiento));
             compras.cola_vip.Enqueue(boleto);
             VIP.cantidadBoletosVIP--;
+            localStorage.SetItem("cantidadBoletosVIP", VIP.cantidadBoletosVIP);
             mensaje = $"✅ Boleto emitido";
             Guardar();
         }
@@ -60,5 +61,12 @@
         {
             vips = boletosVIP;
         }
+
+        var cantidadGuardada = localStorage.GetItem<int>("cantidadBoletosVIP");
+        if (cantidadGuardada > 0)
+        {
+            VIP.cantidadBoletosVIP = cantidadGuardada;
+        }
+
     }
 }

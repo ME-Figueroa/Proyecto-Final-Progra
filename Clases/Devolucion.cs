@@ -2,11 +2,10 @@
 {
     public class Devolucion
     {
-        List<MesasPlatino> mesas = new List<MesasPlatino>();
-        List<VIP> vips = new List<VIP>();  
+        public string? nombre {  get; set; }
 
-        public void buscar()
-        {
-        }
+        public int ? id { get; set; }
+
+        public Stack<Devolucion> devoluciones = new Stack<Devolucion>();
     }
 }

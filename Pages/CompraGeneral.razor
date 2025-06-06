@@ -40,6 +40,7 @@
             boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, 0));
             compras.cola_general.Enqueue(boleto);
             General.cantidadBoletosGeneral--;
+            localStorage.SetItem("cantidadBoletosGeneral", General.cantidadBoletosGeneral);
             mensaje = $"✅ Boleto emitido";
             Guardar();
         }
@@ -58,6 +59,11 @@
         if (boletosGeneral != null)
         {
             generals = boletosGeneral;
+        }
+        var cantidadGuardada = localStorage.GetItem<int>("cantidadBoletosGeneral");
+        if (cantidadGuardada > 0)
+        {
+            General.cantidadBoletosGeneral = cantidadGuardada;
         }
     }
 }

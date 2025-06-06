@@ -21,7 +21,7 @@
 <br />
 <h5 class="mt-4">Boletos restantes: @MesasPlatino.cantidadBoletosMesas</h5>
 <br />
-<img src="@imagen"
+<img src="@imagen"/>
 <a href="@imagen" download="@($"_{boleto.nombres}.png")">Descargar</a>
 @code {
     private MesasPlatino boleto = new MesasPlatino();
@@ -44,6 +44,7 @@
             boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi,4,boleto.NumeroMesa));
             compras.cola_mesas.Enqueue(boleto);
             MesasPlatino.cantidadBoletosMesas--;
+            localStorage.SetItem("cantidadBoletosMesas", MesasPlatino.cantidadBoletosMesas);
             mensaje = $"✅ Boleto emitido";
             Guardar();
 
@@ -65,6 +66,11 @@
         if (savedStarships != null)
         {
             mesas = savedStarships;
+        }
+        var cantidadGuardada = localStorage.GetItem<int>("cantidadBoletosMesas");
+        if (cantidadGuardada > 0)
+        {
+            MesasPlatino.cantidadBoletosMesas = cantidadGuardada;
         }
     }
 }

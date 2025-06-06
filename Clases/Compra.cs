@@ -14,7 +14,6 @@ namespace ProyectoProgra.Clases
         public string generarCorrelativo(string id, int tipo,int num)
         {
             string numCorrelativo=id[0].ToString()+id[1].ToString()+id[11].ToString()+id[12].ToString()+num+tipo;
-
             return numCorrelativo;
         }
 

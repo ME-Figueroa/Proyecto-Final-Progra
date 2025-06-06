@@ -41,6 +41,7 @@
             boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, boleto.NumeroAsiento));
             compras.cola_tribuna.Enqueue(boleto);
             Tribuna.cantidadBoletosTribuna--;
+            localStorage.SetItem("cantidadBoletosTribuna",Tribuna.cantidadBoletosTribuna);
             mensaje = $"✅ Boleto emitido";
             Guardar();
         }
@@ -60,5 +61,12 @@
         {
             tribunas = boletosTribuna;
         }
+
+        var cantidadGuardada = localStorage.GetItem<int>("cantidadBoletosTribuna");
+        if (cantidadGuardada > 0)
+        {
+            Tribuna.cantidadBoletosTribuna = cantidadGuardada;
+        }
+
     }
 }
