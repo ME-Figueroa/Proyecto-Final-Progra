@@ -2,7 +2,7 @@
 @inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
 
 @page "/Tribuna"
-<h3> Compra - VIP</h3>
+<h3 style="color:#4cdba6; font-weight:bold; text-align:center; margin:1.5rem 0;"> Compra de boletos en Tribuna</h3>
 
 @if (mensaje != null)
 {
@@ -15,7 +15,7 @@
     <InputText @bind-Value="boleto.dpi" placeholder="DPI" class="form-control mb-2" />
     <InputText @bind-Value="boleto.correoElectronico" placeholder="Correo" class="form-control mb-2" />
     <InputNumber @bind-Value="boleto.NumeroAsiento" placeholder="Numero de asiento" class="form-control mb-2" />
-    <button class="btn btn-primary" type="submit">Unirse a la cola</button>
+    <button class="btn btn-outline-success" type="submit">Unirse a la cola</button>
 </EditForm>
 
 <br />

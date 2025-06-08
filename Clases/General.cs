@@ -4,6 +4,7 @@
     {
         public bool EsZonaDePie { get; set; } = true;
         public static int cantidadBoletosGeneral{ get; set; } = 80;
+        public int NumeroBoleto { get; set; }
 
 
         public General()

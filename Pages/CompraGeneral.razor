@@ -1,8 +1,8 @@
 ﻿@using ProyectoProgra.Clases
 @inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
 
-@page "/General"
-<h3> Compra - General</h3>
+@page "/"
+<h3 style="color:#4cdba6; font-weight:bold; text-align:center; margin:1.5rem 0;"> Compra de boletos en área General</h3>
 
 @if (mensaje != null)
 {
@@ -14,7 +14,7 @@
     <InputText @bind-Value="boleto.apellidos" placeholder="Apellidos" class="form-control mb-2" />
     <InputText @bind-Value="boleto.dpi" placeholder="DPI" class="form-control mb-2" />
     <InputText @bind-Value="boleto.correoElectronico" placeholder="Correo" class="form-control mb-2" />
-    <button class="btn btn-primary" type="submit">Unirse a la cola</button>
+    <button class="btn btn-outline-success" type="submit">Unirse a la cola</button>
 </EditForm>
 
 <br />
@@ -33,20 +33,26 @@
     {
         generals.Add(boleto);
         localStorage.SetItem("generales", generals);
-        compras.cola_vip.Dequeue();
+        compras.cola_general.Dequeue();
     }
 
     void ComprarB()
     {
         if (General.cantidadBoletosGeneral > 0)
         {
-            boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, 0));
+            // Asignar automáticamente el número de boleto (por cantidad de vendidos)
+            int numeroAsignado = 80 - General.cantidadBoletosGeneral + 1;
+            boleto.NumeroBoleto = numeroAsignado;
+
+            boleto.correlativo = int.Parse(compras.generarCorrelativo(boleto.dpi, 4, numeroAsignado));
             compras.cola_general.Enqueue(boleto);
             General.cantidadBoletosGeneral--;
+
             localStorage.SetItem("cantidadBoletosGeneral", General.cantidadBoletosGeneral);
             mensaje = $"✅ Boleto emitido";
-            Guardar();
             imagen = compras.generarQR(boleto.correlativo.ToString());
+
+            Guardar();
             StateHasChanged();
         }
         else
@@ -57,14 +63,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Recuperar la lista de starships desde LocalStorage a una variable var
-        var boletosGeneral = localStorage.GetItem<List<General>>("genelares");
+        var boletosGeneral = localStorage.GetItem<List<General>>("generales");
 
-        // Validar si la lista fue recuperada correctamente, copiarla a la lista
         if (boletosGeneral != null)
         {
             generals = boletosGeneral;
         }
+
         var cantidadGuardada = localStorage.GetItem<int>("cantidadBoletosGeneral");
         if (cantidadGuardada > 0)
         {
@@ -72,3 +77,4 @@
         }
     }
 }
+

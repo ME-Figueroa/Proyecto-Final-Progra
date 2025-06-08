@@ -2,7 +2,7 @@
 @inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
 
 @page "/cancelacion"
-<h3> Cancelación de boletos</h3>
+<h3 style="color:#4cdba6; font-weight:bold; text-align:center; margin:1.5rem 0;"> Cancelación de boletos</h3>
 
 
 @if (listaMesa != null && vips != null && generals != null && tribunas != null)
@@ -10,7 +10,7 @@
     <EditForm Model="devolucion" OnValidSubmit="Eliminar">
         <InputText @bind-Value="devolucion.nombre" placeholder="Nombre" class="form-control mb-2" />
         <InputNumber @bind-Value="devolucion.id" placeholder="Correlativo" class="form-control mb-2" />
-        <button class="btn-danger" type="submit">Unirse a la cola</button>
+        <button class="btn btn-outline-danger" type="submit">Unirse a la cola</button>
     </EditForm>
 }
 else
