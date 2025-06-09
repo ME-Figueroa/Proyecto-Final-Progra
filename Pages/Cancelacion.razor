@@ -3,7 +3,10 @@
 
 @page "/cancelacion"
 <h3 style="color:#4cdba6; font-weight:bold; text-align:center; margin:1.5rem 0;"> Cancelación de boletos</h3>
-
+@if (!string.IsNullOrWhiteSpace(mensaje))
+{
+    <div class="alert alert-info">@mensaje</div>
+}
 
 @if (listaMesa != null && vips != null && generals != null && tribunas != null)
 {
@@ -24,6 +27,7 @@ else
     private List<VIP> vips = new List<VIP>();
     private List<General> generals = new List<General>();
     private List<Tribuna> tribunas = new List<Tribuna>();
+    string mensaje = "";
 
     public void Eliminar()
     {
@@ -37,6 +41,7 @@ else
                 MesasPlatino.cantidadBoletosMesas++;
                 localStorage.SetItem("cantidadBoletosMesas", MesasPlatino.cantidadBoletosMesas);
                 localStorage.SetItem("mesas", listaMesa);
+                mensaje = "✅ Boleto cancelado exitosamente.";
                 break;
             }
         }
@@ -49,6 +54,7 @@ else
                 VIP.cantidadBoletosVIP++;
                 localStorage.SetItem("cantidadBoletosVIP", MesasPlatino.cantidadBoletosMesas);
                 localStorage.SetItem("vips", vips);
+                mensaje = "✅ Boleto cancelado exitosamente.";
                 break;
             }
         }
@@ -61,6 +67,7 @@ else
                 General.cantidadBoletosGeneral++;
                 localStorage.SetItem("cantidadBoletosGeneral", General.cantidadBoletosGeneral);
                 localStorage.SetItem("generales", generals);
+                mensaje = "✅ Boleto cancelado exitosamente.";
                 break;
             }
         }
@@ -73,6 +80,7 @@ else
                 Tribuna.cantidadBoletosTribuna++;
                 localStorage.SetItem("cantidadBoletosTribuna", Tribuna.cantidadBoletosTribuna);
                 localStorage.SetItem("tribunas", tribunas);
+                mensaje = "✅ Boleto cancelado exitosamente.";
                 break;
             }
         }
